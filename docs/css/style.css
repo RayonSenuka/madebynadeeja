@@ -736,6 +736,7 @@ h2 {
 
 .reel-video {
   position: absolute;
+  z-index: 0;
   inset: 0;
   width: 100%;
   height: 100%;
@@ -744,6 +745,7 @@ h2 {
 
 .reel-sound-toggle {
   position: absolute;
+  z-index: 1;
   right: 12px;
   bottom: 12px;
   display: grid;

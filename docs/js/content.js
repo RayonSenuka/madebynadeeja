@@ -6,13 +6,13 @@ const reelUrl = id =>
 const reelSoundToggle = `
   <button class="reel-sound-toggle" type="button" aria-label="Turn sound on" aria-pressed="false">
     <svg class="sound-off" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M4 10v4h3l4 3V7l-4 3H4z" fill="currentColor"></path>
-      <path d="m15 10 5 5m0-5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-    </svg>
-    <svg class="sound-on" viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M4 10v4h3l4 3V7l-4 3H4z" fill="currentColor"></path>
-      <path d="M15 9a5 5 0 0 1 0 6m2.5-8.5a9 9 0 0 1 0 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"></path>
-    </svg>
+         const res = await fetch('https://formspree.io/f/xqpqelny', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(body)
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error((data.errors && data.errors[0].message) || 'Could not send your message.');
   </button>
   <p class="reel-error-message" role="alert" hidden>Sorry, this video could not be loaded.</p>`;
 const featuredReel = document.getElementById('home')
@@ -118,7 +118,7 @@ function render(cat) {
   initializeReels();
 }
 
-fetch('/api/content')
+fetch('data/content.json')
   .then(r => r.json())
   .then(data => { items = data; render('all'); });
 

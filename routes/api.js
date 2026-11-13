@@ -1,29 +1,28 @@
-const express = require('express');
-const fs = require('fs');
-const path = require('path');
-
-const router = express.Router();
-const contentFile = path.join(__dirname, '../data/content.json');
-const messagesFile = path.join(__dirname, '../data/messages.json');
-
-// GET /api/content  ->  list of videos
-router.get('/content', (req, res) => {
-  const items = JSON.parse(fs.readFileSync(contentFile, 'utf8'));
-  res.json(items);
-});
-
-// POST /api/contact  ->  save a contact message
-router.post('/contact', (req, res) => {
+// POST /api/contact  ->  email the message to the site owner
+router.post('/contact', async (req, res) => {
   const { name, email, message } = req.body || {};
   if (!name || !email || !message) {
     return res.status(400).json({ error: 'Name, email and message are required.' });
   }
-  const messages = fs.existsSync(messagesFile)
-    ? JSON.parse(fs.readFileSync(messagesFile, 'utf8'))
-    : [];
-  messages.push({ name, email, message, date: new Date().toISOString() });
-  fs.writeFileSync(messagesFile, JSON.stringify(messages, null, 2));
-  res.json({ ok: true });
+  try {
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: 'Nadeeja Site <onboarding@resend.dev>',
+        to: [process.env.CONTACT_TO],
+        reply_to: email,
+        subject: `New message from ${name}`,
+        text: `Name: ${name}\nEmail: ${email}\n\n${message}`
+      })
+    });
+    if (!r.ok) throw new Error(await r.text());
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('Contact email failed:', err);
+    res.status(500).json({ error: 'Could not send your message. Please try again.' });
+  }
 });
-
-module.exports = router;

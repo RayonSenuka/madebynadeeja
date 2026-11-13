@@ -1,0 +1,8 @@
+[
+  { "id": 1, "title": "Iphone 18 Pro Max", "category": "tutorial", "views": "12K", "color": "g1", "url": "#" },
+  { "id": 2, "title": "Sony A7V", "category": "review", "views": "48K", "color": "g2", "url": "#" },
+  { "id": 3, "title": "Samsung Galaxy Z Fold 7", "category": "build", "views": "31K", "color": "g3", "url": "#" },
+  { "id": 4, "title": "Mac Mini M4", "category": "tutorial", "views": "22K", "color": "g4", "url": "#" },
+  { "id": 5, "title": "Iphone Duo", "category": "review", "views": "65K", "color": "g5", "url": "#" },
+  { "id": 6, "title": "Oppo Find X8 Ultra", "category": "build", "views": "18K", "color": "g6", "url": "#" }
+]
